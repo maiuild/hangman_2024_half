@@ -31,6 +31,10 @@ public class Settings extends JPanel {
      */
     private JComboBox<String> cmbCategory;
     /**
+     * Silt failinime jaoks
+     */
+    private JLabel lblFile;
+    /**
      * Uue mängu alustamise nupp
      */
     private JButton btnNewGame;
@@ -42,18 +46,19 @@ public class Settings extends JPanel {
 
     /**
      * Settings JPanel konstruktor
+     *
      * @param model mudel mis loodud MainApp-is
      */
     public Settings(Model model) {
         this.model = model;
 
-        setBackground(new Color(255,250,200)); // JSettings paneeli taustavärv
+        setBackground(new Color(255, 250, 200)); // JSettings paneeli taustavärv
 
         gbc.fill = GridBagConstraints.HORIZONTAL; // Täidab lahtri horisontaalselt (kõik lahtrid on "sama laiad")
-        gbc.insets = new Insets(2,2,2,2); // Iga lahtri ümber 2px tühja ruumi
+        gbc.insets = new Insets(2, 2, 2, 2); // Iga lahtri ümber 2px tühja ruumi
 
         JPanel components = new JPanel(new GridBagLayout()); // Siia pannakse kõik komponendid settings paneeli omad
-        components.setBackground(new Color(140,185,250)); // Komponentide paneeli tausta värv
+        components.setBackground(new Color(140, 185, 250)); // Komponentide paneeli tausta värv
 
         /*
          Kuna components panel on Settings konstruktoris loodud ei saa ma seda paneeli mujal kasutada, kui annan
@@ -67,6 +72,7 @@ public class Settings extends JPanel {
 
     /**
      * Meetod mis loob kõik komponendid settings paneelile
+     *
      * @param components paneel kuhu komponendid paigutada
      */
     private void setupUIComponents(JPanel components) {
@@ -85,20 +91,35 @@ public class Settings extends JPanel {
         components.add(lblCategory, gbc);
 
         // TODO muuta JComboBox sulgude sisu
-        cmbCategory = new JComboBox<>(new String[]{model.getChooseCategory()}); // Teksti massiiv ühe elemendiga
+        // cmbCategory = new JComboBox<>(new String[]{model.getChooseCategory()});
+        cmbCategory = new JComboBox<>(model.getCbmCategories()); // Teksti massiiv ühe elemendiga
         gbc.gridx = 1;
         gbc.gridy = 1;
         components.add(cmbCategory, gbc);
 
+        // Uus vaherida
+        // Seaded vahelehele lisa label kasutusel oleva andmebaasi nimega (ilma kaustateeta) - Tunnis iseseisvalt.
+        // Enne nuppe, üle kahe veeru, rohelise teksti värviga. Keskele. Hoopis teeme punase
+        // Kirjastiil Verdana või Courier New
+        lblFile = new JLabel(model.getDatabaseFile(), JLabel.CENTER);
+        lblFile.setForeground(Color.RED);
+        lblFile.setFont(new Font("Verdana", Font.BOLD, 14));
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.gridwidth = 2; // Merge across two columns
+        components.add(lblFile, gbc);
+
+
         // Kolmas rida kaks nuppu kõrvuti. Teine nupp küsitav :)
         btnNewGame = new JButton("Uus mäng");
         gbc.gridx = 0;
-        gbc.gridy = 2;
+        gbc.gridy = 3;
+        gbc.gridwidth = 1;
         components.add(btnNewGame, gbc);
 
         btnLeaderboard = new JButton("Edetabel");
         gbc.gridx = 1;
-        gbc.gridy = 2;
+        gbc.gridy = 3;
         components.add(btnLeaderboard, gbc);
 
     }
